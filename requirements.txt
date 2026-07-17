@@ -1,0 +1,18 @@
+# Core app
+Flask==3.1.0
+Werkzeug==3.1.3
+Jinja2==3.1.5
+MarkupSafe==3.0.2
+itsdangerous==2.2.0
+click==8.1.8
+
+# ML / model serving
+tensorflow==2.21.0
+keras==3.15.0
+numpy==2.0.2
+h5py==3.12.1
+pillow==11.1.0
+
+# Fireworks AI (vision-capable, OpenAI-compatible) clinical insight call
+requests==2.32.3
+python-dotenv==1.0.1

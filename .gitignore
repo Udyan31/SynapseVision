@@ -1,0 +1,26 @@
+# Virtual environments
+venv/
+env/
+.venv/
+.env
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Jupyter
+.ipynb_checkpoints/
+
+# User uploads (runtime scratch space, not source)
+uploads/
+
+# Dataset - too large for git, download separately (see README for link)
+data/
+
+# OS / IDE files
+.DS_Store
+.vscode/
+.idea/
+*.swp
