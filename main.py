@@ -1,12 +1,3 @@
-"""
-SynapseVision - Flask app for classifying brain MRI scans.
-
-Loads a VGG16-based model and serves a simple upload UI. If no model is
-available it falls back to a simulated prediction so the UI can still be
-demoed, but this is always clearly flagged - it's never shown as a real
-result.
-"""
-
 from flask import Flask, render_template, request, send_from_directory
 from werkzeug.utils import secure_filename
 import numpy as np
@@ -20,9 +11,7 @@ load_dotenv()
 
 app = Flask(__name__)
 
-# ---------------------------------------------------------------------
 # Load the trained model
-# ---------------------------------------------------------------------
 HAS_TENSORFLOW = False
 model = None
 
@@ -39,11 +28,7 @@ if HAS_TENSORFLOW:
         legacy_full_model_path = 'models/model.h5'
 
         if os.path.exists(weights_path):
-            # We only ship the weights, not a full saved model - loading a
-            # full .h5 model tends to break across Keras versions (mismatched
-            # layer configs etc), so we rebuild the architecture here and
-            # load the numbers into it instead. More boilerplate, but it
-            # actually works across versions.
+           
             from tensorflow.keras.applications import VGG16
             from tensorflow.keras import layers, models as keras_models
 
@@ -70,9 +55,7 @@ if HAS_TENSORFLOW:
         print(f"Error loading model: {e}. Falling back to simulated predictions.")
         HAS_TENSORFLOW = False
 
-# Class order matches how Keras' flow_from_directory sorts the training
-# folders (alphabetical). If you retrain this, double check against your
-# own train_generator.class_indices before trusting this list.
+
 CLASS_LABELS = ['glioma', 'meningioma', 'notumor', 'pituitary']
 
 UPLOAD_FOLDER = './uploads'
@@ -87,9 +70,7 @@ def allowed_file(filename):
 
 
 def simulate_prediction(image_path):
-    # Used when there's no model loaded - picks a class based on the
-    # filename so the demo looks half-reasonable, but this is never
-    # presented as a real prediction (see is_demo below).
+    .
     filename = os.path.basename(image_path).lower()
 
     if 'glioma' in filename or 'gl' in filename:
@@ -135,8 +116,6 @@ def predict_tumor(image_path):
 
 
 # Fireworks AI gives us a vision-capable, OpenAI-compatible chat endpoint
-# for turning the raw classification into a short explanation. Get a key
-# at https://fireworks.ai and put it in .env as FIREWORKS_API_KEY.
 FIREWORKS_API_KEY = os.getenv('FIREWORKS_API_KEY')
 FIREWORKS_MODEL = os.getenv('FIREWORKS_MODEL', 'accounts/fireworks/models/kimi-k2p5')
 FIREWORKS_URL = "https://api.fireworks.ai/inference/v1/chat/completions"
@@ -149,8 +128,6 @@ def encode_image_base64(image_path):
 
 def generate_clinical_insight(image_path, result_text, confidence_score, is_demo_mode):
     if is_demo_mode:
-        # Don't bother calling the LLM on top of a fake classification -
-        # just say plainly that this isn't real.
         tumor_type = result_text.replace("Tumor: ", "").strip()
         if result_text == "No Tumor":
             return (
