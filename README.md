@@ -1,14 +1,10 @@
 # SynapseVision
-
 A Flask app that classifies brain MRI scans into 4 categories — glioma,
 meningioma, pituitary tumor, or no tumor — using a fine-tuned VGG16 CNN.
 Optionally generates a plain-language explanation of the result using a
 vision LLM (Fireworks AI).
 
-**Not a medical device.** Educational project only — not for clinical use.
-
 ## How it works
-
 1. Upload an MRI scan through the web UI.
 2. A VGG16 model (transfer learning, fine-tuned on MRI data) predicts one
    of the 4 classes.
@@ -16,7 +12,6 @@ vision LLM (Fireworks AI).
    model to generate a short plain-English explanation.
 
 ## Model performance
-
 Trained on the [Brain Tumor MRI Dataset](https://www.kaggle.com/datasets/masoudnickparvar/brain-tumor-mri-dataset)
 (7,023 images), tested on 1,600 held-out images.
 
@@ -31,13 +26,9 @@ Overall accuracy: **85.0%**. Full confusion matrix in
 `models/evaluation_report.txt`.
 
 ## Setup
-
 Requires Python 3.10+.
 
 ```bash
-git clone <your-repo-url>
-cd SynapseVision
-
 python -m venv venv
 source venv/bin/activate      # Windows: venv\Scripts\activate
 pip install -r requirements.txt
